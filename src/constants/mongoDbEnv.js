@@ -1,0 +1,8 @@
+const MONGO_DB_ENV = {
+  USER: 'MONGODB_USER',
+  PASSWORD: 'MONGODB_PASSWORD',
+  URL: 'MONGODB_URL',
+  DB: 'MONGODB_DB',
+};
+
+export const { USER, PASSWORD, URL, DB } = MONGO_DB_ENV;
