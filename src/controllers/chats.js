@@ -50,8 +50,8 @@ export const createNewChatController = async (req, res) => {
 };
 
 export const deleteChatController = async (req, res) => {
-  const { _id } = req.params;
-  const chat = await deleteChat(_id);
+  const { chatId } = req.params;
+  const chat = await deleteChat(chatId);
 
   if (!chat) {
     throw createHttpError(404, 'Chat not found');
