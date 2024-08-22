@@ -12,7 +12,7 @@ const chatsSchema = new Schema(
     },
     messages: {
       type: Array,
-      required: true,
+      default: [],
     },
   },
   {

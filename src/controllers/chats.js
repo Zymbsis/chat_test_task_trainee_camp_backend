@@ -1,5 +1,10 @@
 import createHttpError from 'http-errors';
-import { getAllChats, getChatById } from '../services/chats.js';
+import {
+  createNewChat,
+  deleteChat,
+  getAllChats,
+  getChatById,
+} from '../services/chats.js';
 import mongoose from 'mongoose';
 
 export const getChatsController = async (req, res) => {
@@ -29,4 +34,26 @@ export const getChatByIdController = async (req, res) => {
     message: `Successfully found chat with id ${chatId}!`,
     data: chat,
   });
+};
+
+export const createNewChatController = async (req, res) => {
+  const { firstName, lastName } = req.body;
+  const newChat = await createNewChat({ firstName, lastName });
+
+  res.status(201).json({
+    status: 201,
+    message: `Successfully created new chat!`,
+    data: newChat,
+  });
+};
+
+export const deleteChatController = async (req, res) => {
+  const { _id } = req.body;
+  const chat = await deleteChat(_id);
+
+  if (!chat) {
+    throw createHttpError(404, 'Chat not found');
+  }
+
+  res.status(204).send();
 };
