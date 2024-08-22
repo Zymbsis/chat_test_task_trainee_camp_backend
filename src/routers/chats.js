@@ -15,6 +15,6 @@ router.get('/chats/:chatId', ctrlWrapper(getChatByIdController));
 
 router.post('/chats', ctrlWrapper(createNewChatController));
 
-router.delete('/chats', ctrlWrapper(deleteChatController));
+router.delete('/chats/:chatId', ctrlWrapper(deleteChatController));
 
 export default router;
