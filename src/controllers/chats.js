@@ -38,6 +38,8 @@ export const getChatByIdController = async (req, res) => {
 
 export const createNewChatController = async (req, res) => {
   const { firstName, lastName } = req.body;
+  console.log(firstName, lastName);
+
   const newChat = await createNewChat({ firstName, lastName });
 
   res.status(201).json({
@@ -48,7 +50,7 @@ export const createNewChatController = async (req, res) => {
 };
 
 export const deleteChatController = async (req, res) => {
-  const { _id } = req.body;
+  const { _id } = req.params;
   const chat = await deleteChat(_id);
 
   if (!chat) {
