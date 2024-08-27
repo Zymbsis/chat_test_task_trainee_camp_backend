@@ -26,7 +26,7 @@ export const createNewMessage = async (_id, message, options) => {
 
   if (!chat) return null;
   const newMessage = chat.messages[chat.messages.length - 1];
-  return newMessage;
+  return { message: newMessage, parentId: chat._id };
 };
 
 export const deleteChat = async (_id) => {
