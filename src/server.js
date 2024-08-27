@@ -25,7 +25,7 @@ export const startServer = () => {
   app.use(cors());
   app.get('/', (req, res) => {
     res.json({
-      message: 'Hello world!',
+      message: 'Hello world :)',
     });
   });
 
