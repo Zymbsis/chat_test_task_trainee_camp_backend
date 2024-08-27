@@ -4,8 +4,8 @@ import {
   deleteChat,
   getAllChats,
   getChatById,
+  updateChat,
 } from '../services/chats.js';
-import mongoose from 'mongoose';
 
 export const getChatsController = async (req, res) => {
   const chats = await getAllChats();
@@ -18,27 +18,21 @@ export const getChatsController = async (req, res) => {
 };
 
 export const getChatByIdController = async (req, res) => {
-  const { chatId } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(chatId)) {
-    throw createHttpError(404, 'Chat not found');
-  }
-
-  const chat = await getChatById(chatId);
+  const { chatId: _id } = req.params;
+  const chat = await getChatById(_id);
   if (!chat) {
     throw createHttpError(404, 'Chat not found');
   }
 
   res.json({
     status: 200,
-    message: `Successfully found chat with id ${chatId}!`,
+    message: `Successfully found chat with id ${_id}!`,
     data: chat,
   });
 };
 
 export const createNewChatController = async (req, res) => {
   const { firstName, lastName } = req.body;
-  console.log(firstName, lastName);
 
   const newChat = await createNewChat({ firstName, lastName });
 
@@ -50,12 +44,25 @@ export const createNewChatController = async (req, res) => {
 };
 
 export const deleteChatController = async (req, res) => {
-  const { chatId } = req.params;
-  const chat = await deleteChat(chatId);
+  const { chatId: _id } = req.params;
+  const chat = await deleteChat(_id);
+  if (!chat) {
+    throw createHttpError(404, 'Chat not found');
+  }
+  res.status(204).send();
+};
 
+export const updateChatController = async (req, res) => {
+  const { chatId: _id } = req.params;
+  const payload = req.body;
+  const chat = await updateChat(_id, payload);
   if (!chat) {
     throw createHttpError(404, 'Chat not found');
   }
 
-  res.status(204).send();
+  res.status(200).json({
+    status: 200,
+    message: `Successfully updated chat!`,
+    data: chat,
+  });
 };
