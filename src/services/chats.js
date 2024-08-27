@@ -14,6 +14,20 @@ export const createNewChat = async (payload) => {
   const newChat = ChatsCollection.create(payload);
   return newChat;
 };
+export const createNewMessage = async (_id, message, options) => {
+  const chat = await ChatsCollection.findByIdAndUpdate(
+    _id,
+    { $push: { messages: message } },
+    {
+      new: true,
+      ...options,
+    },
+  );
+
+  if (!chat) return null;
+  const newMessage = chat.messages[chat.messages.length - 1];
+  return newMessage;
+};
 
 export const deleteChat = async (_id) => {
   const chat = await ChatsCollection.findByIdAndDelete({ _id });

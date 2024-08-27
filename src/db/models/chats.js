@@ -1,5 +1,21 @@
 import { model, Schema } from 'mongoose';
 
+const messageSchema = new Schema({
+  from: {
+    type: String,
+    enum: ['me', 'contact'],
+    required: true,
+  },
+  text: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+});
+
 const chatsSchema = new Schema(
   {
     firstName: {
@@ -10,10 +26,7 @@ const chatsSchema = new Schema(
       type: String,
       required: true,
     },
-    messages: {
-      type: Array,
-      default: [],
-    },
+    messages: [messageSchema],
   },
   {
     timestamps: true,

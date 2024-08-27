@@ -4,11 +4,16 @@ import {
   deleteChatController,
   getChatByIdController,
   getChatsController,
+  sendMessageController,
   updateChatController,
 } from '../controllers/chats.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middleware/validateBody.js';
-import { createChatSchema, updateChatSchema } from '../validation/chat.js';
+import {
+  createChatSchema,
+  messageSchema,
+  updateChatSchema,
+} from '../validation/chat.js';
 import { isValidId } from '../middleware/isValidId.js';
 
 const router = Router();
@@ -21,6 +26,12 @@ router.post(
   '/chats',
   validateBody(createChatSchema),
   ctrlWrapper(createNewChatController),
+);
+router.post(
+  '/chats/:chatId',
+  isValidId,
+  validateBody(messageSchema),
+  ctrlWrapper(sendMessageController),
 );
 
 router.patch(

@@ -1,6 +1,7 @@
 import createHttpError from 'http-errors';
 import {
   createNewChat,
+  createNewMessage,
   deleteChat,
   getAllChats,
   getChatById,
@@ -42,6 +43,19 @@ export const createNewChatController = async (req, res) => {
     data: newChat,
   });
 };
+export const sendMessageController = async (req, res) => {
+  const { chatId: _id } = req.params;
+  const message = req.body;
+  const newMessage = await createNewMessage(_id, message);
+  if (!newMessage) {
+    throw createHttpError(404, 'Chat not found');
+  }
+  res.status(201).json({
+    status: 201,
+    message: `Successfully send message!`,
+    data: newMessage,
+  });
+};
 
 export const deleteChatController = async (req, res) => {
   const { chatId: _id } = req.params;
@@ -55,6 +69,7 @@ export const deleteChatController = async (req, res) => {
 export const updateChatController = async (req, res) => {
   const { chatId: _id } = req.params;
   const payload = req.body;
+
   const chat = await updateChat(_id, payload);
   if (!chat) {
     throw createHttpError(404, 'Chat not found');
